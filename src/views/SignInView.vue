@@ -18,7 +18,7 @@
               id="input-email"
               aria-describedby="emailHelp"
               required
-              placeholder="hi@muhammadilham.xyz"
+              placeholder="organizer@event.com"
             />
             <div id="emailHelp" class="form-text">
               We'll never share your email with anyone else.
@@ -43,7 +43,7 @@
           </div>
 
           <!-- Button with Loading Spinner -->
-          <button type="submit" class="btn btn-primary w-100 position-relative" :disabled="isLoading">
+          <button type="submit" class="btn btn-primary btn-lg transparent-btn w-100 position-relative" :disabled="isLoading">
             <span v-if="!isLoading">Submit</span>
             <Loading
               v-if="isLoading"
@@ -167,5 +167,16 @@ export default {
 
 .signin p {
   font-size: 1.25rem;
+}
+
+.transparent-btn {
+  background-color: transparent;
+  border: 2px solid #ffffff; /* Lighter color for border */
+  color: #ffffff; /* White text for better contrast */
+}
+
+.transparent-btn:hover {
+  background-color: #ffffff; /* Light background when hovered */
+  color: #0056b3; /* Dark blue text on hover */
 }
 </style>
