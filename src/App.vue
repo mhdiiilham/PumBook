@@ -1,32 +1,50 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
+    <NavBar></NavBar>
     <router-view/>
+    <!-- <FooterBar></FooterBar> -->
+    <div id="footer">
+      <footer class="bg-body-tertiary text-center text-lg-start">
+        <!-- Copyright -->
+        <div class="text-center p-3">
+          © 2025 Made with <span>&#10084;</span>
+          <a class="text-body" target="_blank" href="https://muhammadilham.xyz/">Ilham</a>
+          <br/>
+        </div>
+        <!-- Copyright -->
+      </footer>
+    </div>
   </div>
 </template>
 
+<script>
+import NavBar from './components/NavBar.vue';
+
+export default {
+  name: 'HomeView',
+  components: {
+    NavBar,
+    // FooterBar,
+  },
+  mounted() {
+    this.$store.dispatch('loadCredential');
+  },
+};
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+html, body, #app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-nav {
-  padding: 30px;
+router-view {
+  flex: 1; /* Ensures the content area stretches */
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+#footer {
+  margin-top: auto; /* Pushes the footer to the bottom */
 }
 </style>
