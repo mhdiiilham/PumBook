@@ -2,11 +2,11 @@
   <div class="landing-container">
     <!-- Hero Section -->
     <header class="hero text-white d-flex align-items-center justify-content-center">
+      <div class="overlay"></div> <!-- Dark overlay -->
       <p class="photo-credit">
         Photo by <a href="https://unsplash.com/@srosinger3997?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash" target="_blank" rel="noopener noreferrer">Samantha Gades</a> on 
         <a href="https://unsplash.com/photos/laughing-people-in-party-fIHozNWfcvs?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash" target="_blank" rel="noopener noreferrer">Unsplash</a>
       </p>
-      <div class="overlay"></div> <!-- Dark overlay -->
       <div class="container text-center hero-content">
         <h1>Welcome to <span class="pumbook">PumBook</span></h1>
         <p class="lead">Celebrate with us and leave a message to remember!</p>
