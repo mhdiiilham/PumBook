@@ -7,7 +7,7 @@
       <footer class="bg-body-tertiary text-center text-lg-start">
         <!-- Copyright -->
         <div class="text-center p-3">
-          © 2025 Made with <span>&#10084;</span>
+          © 2025 Made with <span>&#10084;</span> by 
           <a class="text-body" target="_blank" href="https://muhammadilham.xyz/">Ilham</a>
           <br/>
         </div>
@@ -24,7 +24,6 @@ export default {
   name: 'HomeView',
   components: {
     NavBar,
-    // FooterBar,
   },
   mounted() {
     this.$store.dispatch('loadCredential');

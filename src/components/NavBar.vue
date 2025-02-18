@@ -8,19 +8,21 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <router-link class="nav-link" to="/">Home</router-link>
-            </li>
-            <li class="nav-item" v-if="$store.state.isLogged">
-              <router-link class="nav-link" to="/events">Events</router-link>
-            </li>
-            <li class="nav-item" v-if="$store.state.isLogged">
-              <router-link class="nav-link" to="/events/create">Create Event</router-link>
-            </li>
-          </ul>
-          <div v-if="$store.state.isLogged" class="d-flex justify-content-center align-items-center">
-            <button @click="handleSignOut" class="btn btn-outline-success">Sign Out</button>
+          <div class="div" id="private"  v-if="$store.state.isLogged">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <router-link class="nav-link" to="/">Home</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/events">Events</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/events/create">Create Event</router-link>
+              </li>
+            </ul>
+            <div class="d-flex justify-content-center align-items-center">
+              <button @click="handleSignOut" class="btn btn-outline-success">Sign Out</button>
+            </div>
           </div>
         </div>
       </div>

@@ -1,0 +1,14 @@
+# robots.txt for PumBook
+
+User-agent: *
+Disallow: /events/*
+Disallow: /signin/
+Disallow: /signup/
+Disallow: /user/
+Disallow: /profile/
+
+# Allow all other pages
+Allow: /
+
+# Sitemap location
+Sitemap: https://pumbook.muhammadilham.xyz/sitemap.xml

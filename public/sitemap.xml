@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    <!-- Home Page -->
+    <url>
+        <loc>https://pumbook.muhammadilham.xyz/</loc>
+        <lastmod>2025-02-18</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1.00</priority>
+    </url>
+
+    <!-- About Page -->
+    <url>
+        <loc>https://pumbook.muhammadilham.xyz/about</loc>
+        <lastmod>2025-02-18</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.80</priority>
+    </url>
+
+    <!-- Contact Page -->
+    <url>
+        <loc>https://pumbook.muhammadilham.xyz/contact</loc>
+        <lastmod>2025-02-18</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.80</priority>
+    </url>
+
+    <!-- User Profile Page -->
+    <!-- <url>
+        <loc>https://pumbook.muhammadilham.xyz/profile</loc>
+        <lastmod>2025-02-18</lastmod>
+        <priority>0.50</priority>
+    </url> -->
+
+    <!-- Terms of Service Page -->
+    <url>
+        <loc>https://pumbook.muhammadilham.xyz/terms</loc>
+        <lastmod>2025-02-18</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.50</priority>
+    </url>
+
+    <!-- Privacy Policy Page -->
+    <url>
+        <loc>https://pumbook.muhammadilham.xyz/privacy</loc>
+        <lastmod>2025-02-18</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.50</priority>
+    </url>
+
+    <!-- Sign In Page -->
+    <url>
+        <loc>https://pumbook.muhammadilham.xyz/signin</loc>
+        <lastmod>2025-02-18</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.60</priority>
+    </url>
+
+    <!-- Sign Up Page -->
+    <!-- <url>
+        <loc>https://pumbook.muhammadilham.xyz/signup</loc>
+        <lastmod>2025-02-18</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.60</priority>
+    </url> -->
+
+</urlset>

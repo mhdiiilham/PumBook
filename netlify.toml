@@ -1,4 +1,22 @@
+# Redirects for SPA handling
 [[redirects]]
 from = "/*"
 to = "/index.html"
 status = 200
+
+# Allow access to robots.txt and sitemap.xml
+[[redirects]]
+from = "/robots.txt"
+to = "/robots.txt"
+status = 200
+
+[[redirects]]
+from = "/sitemap.xml"
+to = "/sitemap.xml"
+status = 200
+
+[[headers]]
+for = "/*"
+[headers.values]
+X-Content-Type-Options = "nosniff"
+X-Frame-Options = "DENY"
