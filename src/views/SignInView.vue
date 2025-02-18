@@ -46,7 +46,7 @@
           <div class="text-center mb-3">
             <small class="text-muted">
               By signing in, you agree to our
-              <a href="/terms" target="_blank" class="text-primary">Terms and Conditions</a>.
+              <a href="/terms-and-conditions" target="_blank" class="text-primary">Terms and Conditions</a>.
             </small>
           </div>
 
