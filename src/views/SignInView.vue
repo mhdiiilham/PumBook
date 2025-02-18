@@ -42,16 +42,17 @@
             <label class="form-check-label" for="remember">Remember me?</label>
           </div>
 
+          <!-- Terms & Conditions Notice -->
+          <div class="text-center mb-3">
+            <small class="text-muted">
+              By signing in, you agree to our
+              <a href="/terms" target="_blank" class="text-primary">Terms and Conditions</a>.
+            </small>
+          </div>
+
           <!-- Button with Loading Spinner -->
           <button type="submit" class="btn btn-primary btn-lg transparent-btn w-100 position-relative" :disabled="isLoading">
-            <span v-if="!isLoading">Submit</span>
-            <Loading
-              v-if="isLoading"
-              :active.sync="isLoading"
-              :is-full-page="false"
-              :loader="'dots'"
-              class="loading-overlay"
-            ></Loading>
+            Sign In
           </button>
         </form>
       </div>
@@ -61,13 +62,10 @@
 
 <script>
 import apiClient from '@/helpers/axios.js';
-import Loading from 'vue-loading-overlay';
 import router from '@/router';
 
 export default {
-  components: {
-    Loading,
-  },
+  components: {},
   data() {
     return {
       email: null,
@@ -104,25 +102,7 @@ export default {
 }
 </script>
 
-<style>
-/* Style to position the loading overlay inside the button */
-/* .loading-overlay {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.signin {
-  position: relative;
-  background: url('@/assets/signin_bg.jpg') center/cover no-repeat;
-  height: 60vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-} */
-
+<style scoped>
 /* Style to position the loading overlay inside the button */
 .loading-overlay {
   position: absolute;
@@ -145,7 +125,7 @@ export default {
   background: rgba(255, 255, 255, 0.8); /* Transparent background */
   border-radius: 10px; /* Optional: rounded corners */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: shadow effect */
-  backdrop-filter: blur(10px); /* Optional: blur effect on the background */
+  backdrop-filter: blur(1px); /* Optional: blur effect on the background */
 }
 
 .photo-credit {
