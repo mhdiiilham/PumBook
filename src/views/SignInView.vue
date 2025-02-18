@@ -52,7 +52,12 @@
 
           <!-- Button with Loading Spinner -->
           <button type="submit" class="btn btn-primary btn-lg transparent-btn w-100 position-relative" :disabled="isLoading">
-            Sign In
+            <div class="container">
+              <div class="row justify-content-center">
+                <div v-if="isLoading" class="spinner-border text-primary" role="status"></div>
+                <span v-else>Sign In</span>
+              </div>
+            </div>
           </button>
         </form>
       </div>
