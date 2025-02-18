@@ -10,7 +10,7 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView,
-    meta: { title: 'PumBook - Home' },
+    meta: { title: 'PumBook - Digital Guest Book for Special Moments' },
   },
   {
     path: '/signin',
