@@ -380,7 +380,6 @@ export default {
           }, 1000);
         }
       } catch (error) {
-        console.log(error, 'error');
         this.modelErrorMessage= 'Failed to add new guest. Please contact support!';
       } finally {
         setTimeout(() => {
@@ -405,7 +404,6 @@ export default {
         await apiClient.patch(`/events/${this.event.uuid}`, payload, {headers: { 'Authorization': `Bearer ${this.$store.state.accessToken}` }})
         this.detailMessage = 'Event updated!';
       } catch (error) {
-        console.log(error)
         this.errorMessage = 'Failed to update event';
       } finally {
         setTimeout(() => {
@@ -429,7 +427,6 @@ export default {
           }, 1500);
         }
       } catch (error) {
-        console.log(error, 'error');
         this.modelErrorMessage= 'Failed to remove new guest. Please contact support!';
       } finally {
         setTimeout(() => {
@@ -448,7 +445,6 @@ export default {
         this.fetchEventDetail()
         this.successMessage = `Invitation to ${guest.name} sent!`;
       } catch (error) {
-        console.log(error)
         this.errorMessage = 'Internal Server Error';
       } finally {
         setTimeout(() => {

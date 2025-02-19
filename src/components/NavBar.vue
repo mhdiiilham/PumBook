@@ -1,26 +1,24 @@
 <template>
   <div>
     <nav class="navbar navbar-light bg-light shadow-sm">
-      <div class="container-fluid position-relative">
-        <div v-if="$store.state.isLogged" class="me-auto">
+      <div class="container-fluid d-flex align-items-center justify-content-between">
+
+        <!-- Left: ☰ Menu Button (Only for logged-in users) -->
+        <div v-if="$store.state.isLogged">
           <button class="btn btn-outline-primary" @click="toggleSidebar">
             ☰ Menu
           </button>
         </div>
 
-        <!-- Center: About, PumBook, and Contact -->
+        <!-- Center Content (Depends on login state) -->
         <div class="nav-center">
-          <router-link class="nav-link small-text" to="/about">About</router-link>
-          <router-link class="navbar-brand pumbook mx-3" to="/">PumBook</router-link>
-          <router-link class="nav-link small-text" to="/contact">Contact</router-link>
+          <router-link v-if="!$store.state.isLogged" class="nav-link small-text" to="/about">About</router-link>
+          <router-link class="navbar-brand pumbook mx-2" to="/">PumBook</router-link>
+          <router-link v-if="!$store.state.isLogged" class="nav-link small-text" to="/contact">Contact</router-link>
         </div>
 
-
-        <!-- Right: Sign In Button (Only when logged out) -->
-        <!-- <div v-if="!$store.state.isLogged" class="ms-auto">
-          <router-link to="/signin" class="btn btn-outline-danger">Sign In</router-link>
-        </div> -->
-
+        <!-- Invisible Placeholder (Ensures alignment when logged in) -->
+        <div v-if="$store.state.isLogged" class="invisible-placeholder"></div>
       </div>
     </nav>
 
@@ -28,19 +26,13 @@
     <div v-if="$store.state.isLogged" :class="['sidebar', { open: isSidebarOpen }]">
       <button class="close-btn" @click="toggleSidebar">×</button>
       <ul class="list-unstyled">
-        <li v-if="$store.state.isLogged">
-          <router-link class="nav-link" to="/events" @click="toggleSidebar">Events</router-link>
-        </li>
-        <li v-if="$store.state.isLogged">
-          <router-link class="nav-link" to="/events/create" @click="toggleSidebar">Create Event</router-link>
-        </li>
-        <li v-if="$store.state.isLogged">
-          <button @click="handleSignOut" class="nav-link">Sign Out</button>
-        </li>
+        <li><router-link class="nav-link" to="/events" @click="toggleSidebar">Events</router-link></li>
+        <li><router-link class="nav-link" to="/events/create" @click="toggleSidebar">Create Event</router-link></li>
+        <li><button @click="handleSignOut" class="nav-link">Sign Out</button></li>
       </ul>
     </div>
 
-    <!-- Overlay to Close Sidebar -->
+    <!-- Overlay -->
     <div v-if="isSidebarOpen && $store.state.isLogged" class="overlay" @click="toggleSidebar"></div>
   </div>
 </template>
@@ -66,6 +58,45 @@ export default {
 </script>
 
 <style scoped>
+/* Navbar Styling */
+.navbar {
+  min-height: 56px;
+}
+
+/* Centered Navbar Content */
+.nav-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Adjust spacing between About - PumBook - Contact */
+  flex-grow: 1;
+}
+
+/* Branding */
+.pumbook {
+  font-family: "Pacifico", serif;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+/* About & Contact Links */
+.small-text {
+  font-size: 0.9em;
+  color: #6c757d;
+  text-decoration: none;
+}
+
+.small-text:hover {
+  color: #007bff;
+}
+
+/* Invisible Placeholder for Alignment */
+.invisible-placeholder {
+  width: 40px;
+  height: 40px;
+  visibility: hidden;
+}
+
 /* Sidebar Styles */
 .sidebar {
   position: fixed;
@@ -116,38 +147,5 @@ export default {
   background: rgba(0, 0, 0, 0.2);
   z-index: 999;
 }
-
-/* Ensure Navbar Height */
-.navbar {
-  min-height: 56px; /* Keeps navbar height consistent */
-}
-
-/* Centered Navbar Content */
-.nav-center {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 10px; /* Spacing between About - PumBook - Contact */
-}
-
-/* PumBook Branding */
-.pumbook {
-  font-family: "Pacifico", serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 1.5em;
-}
-
-/* About & Contact Smaller Text */
-.small-text {
-  font-size: 0.9em;
-  color: #6c757d;
-  text-decoration: none;
-}
-
-.small-text:hover {
-  color: #007bff;
-}
 </style>
+

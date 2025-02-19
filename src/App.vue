@@ -9,7 +9,8 @@
         <!-- Copyright -->
         <div class="text-center p-3">
           © 2025 Made with <span>&#10084;</span> by 
-          <a class="text-body" target="_blank" href="https://muhammadilham.xyz/">Ilham</a>
+          <a class="text-body" target="_blank" href="https://muhammadilham.xyz/">Ilham</a> <br/>
+          With help from <a class="text-body" target="_blank" href="https://instagram.com/__ocak">Oca</a> and <a class="text-body" target="_blank" href="https://openai.com/index/chatgpt/">ChatGPT</a>
           <br/>
         </div>
         <!-- Copyright -->
