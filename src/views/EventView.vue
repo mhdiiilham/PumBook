@@ -50,26 +50,26 @@
               </div>
 
               <!-- Card-body column: Full width on mobile, 8 columns on medium and up -->
-              <div class="col-12 col-md-8">
+              <div class="col-12 col-md-8" id="event-card-list">
                 <div class="card-body">
                   <div class="container">
                     <div class="row">
-                      <h5 class="card-title">{{ event.name }}</h5>
+                      <h5 class="card-title">{{ trimEventName(event.name) }}</h5>
                     </div>
                     <div class="row mb-2">
                       <div class="col">
-                        <h6 class="card-text">Host: {{ event.host }}</h6>
+                        <p class="card-text">Host: {{ event.host }}</p>
                       </div>
                       <div class="col">
-                        <h6 class="card-text">Location: {{ event.location }}</h6>
+                        <p class="card-text">Location: {{ event.location }}</p>
                       </div>
                     </div>
-                    <div class="row mb-2">
+                    <div class="row mb-2 d-none d-md-block">
                       <div class="col">
-                        <h6 class="card-text">Start Date: {{ event.formattedStartDate }}</h6>
+                        <p class="card-text">Start Date: {{ event.formattedStartDate }}</p>
                       </div>
                       <div class="col">
-                        <h6 class="card-text">End Date: {{ event.formattedEndDate }}</h6>
+                        <p class="card-text">End Date: {{ event.formattedEndDate }}</p>
                       </div>
                     </div>
                   </div>
@@ -78,43 +78,6 @@
             </div>
           </router-link>
         </div>
-
-
-        <!-- <div class="table-responsive">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Host</th>
-                <th scope="col">Location</th>
-                <th scope="col">Start Date</th>
-                <th scope="col">End Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-if="isLoading">
-                <td colspan="6">
-                  <div class="skeleton-loader"></div>
-                </td>
-              </tr>
-
-              <tr v-else-if="events.length === 0">
-                <td colspan="6">There are no events at the moment...</td>
-              </tr>
-
-              <tr v-for="(event, index) in formattedEvents" :key="index">
-                <td><router-link :to="'/events/'+event.uuid" style="font-weight: bold;">{{ trimEventUUID(event.uuid) }}</router-link></td>
-                <td><router-link :to="'/events/'+event.uuid">{{ trimEventName(event.name) }}</router-link></td>
-                <td>{{ event.host }}</td>
-                <td>{{ event.location }}</td>
-                <td>{{ event.formattedStartDate }}</td>
-                <td>{{ event.formattedEndDate }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div> -->
-
         <nav aria-label="Page navigation example">
           <ul class="pagination justify-content-center">
             <li class="page-item" :class="{ 'disabled': currentPage == 1 }">
@@ -165,7 +128,8 @@ export default {
       return `${id.substring(0, 5)}...`;
     },
     trimEventName(name) {
-      return name.substring(0, 20)+"..."
+      const tempName = name;
+      return `${tempName.substring(0, 10)}...`
     }
   },
   created() {
@@ -302,5 +266,8 @@ export default {
   margin-bottom: 8px;
 }
 
+.event-card-list {
+  overflow: scroll;
+}
 
 </style>
