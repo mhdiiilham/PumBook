@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import SignInView from '@/views/SignInView.vue';
 import HomeView from '../views/HomeView.vue';
 import TermsAndConditionView from '@/views/TermsAndConditionView.vue';
+import AboutView from '@/views/AboutView.vue';
 
 Vue.use(VueRouter);
 
@@ -60,6 +61,12 @@ const routes = [
     component: TermsAndConditionView,
     meta: { title: 'PumBook - Terms and Conditions' },
   },
+  {
+    path: '/about',
+    name: 'about',
+    component: AboutView,
+    meta: { title: 'PumBook - About' },
+  },
 ];
 
 const router = new VueRouter({
@@ -71,7 +78,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const isAuthenticated = !!localStorage.getItem('credentials');
 
-  if (!isAuthenticated && to.name !== 'signin' && to.name !== 'home' && to.name !== 'terms') {
+  if (!isAuthenticated && to.name !== 'signin' && to.name !== 'home' && to.name !== 'terms' && to.name != 'about') {
     document.title = to.meta.title || 'PumBook'; // Default title
     next({ name: 'signin' });
   } else {

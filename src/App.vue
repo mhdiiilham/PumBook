@@ -46,4 +46,22 @@ router-view {
 #footer {
   margin-top: auto; /* Pushes the footer to the bottom */
 }
+
+.photo-credit {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 1px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.photo-credit a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+}
+
+.photo-credit a:hover {
+  text-decoration: underline;
+}
+
 </style>

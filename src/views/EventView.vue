@@ -5,7 +5,7 @@
         <h1 class="text-center">Events</h1>
         
         <div class="table-responsive">
-          <table class="table table-striped">
+          <table class="table table-hover">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -152,4 +152,17 @@ export default {
     background-position: -200% 0;
   }
 }
+
+.table tbody tr {
+  transition: all 0.3s ease-in-out;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+  transform: scale(1.01); /* Slightly enlarges row */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Adds shadow */
+  border-left: 4px solid #007bff; /* Blue left border */
+}
+
+
 </style>

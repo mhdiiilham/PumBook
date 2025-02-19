@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex justify-content-end align-items-center vh-100 bg-light px-3 animate__backOutDown signin">
-    <p class="photo-credit">
+    <p class="photo-credit" style="font-size: 0.5em !important;">
       Photo by <a href="https://unsplash.com/@thomasw?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Thomas William</a> on <a href="https://unsplash.com/photos/grayscale-photo-of-people-rising-a-drinking-glasses-K8V2NDNJDYo?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
     </p>
     <div class="card shadow p-4" style="width: 100%; max-width: 400px;">
@@ -131,23 +131,6 @@ export default {
   border-radius: 10px; /* Optional: rounded corners */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: shadow effect */
   backdrop-filter: blur(1px); /* Optional: blur effect on the background */
-}
-
-.photo-credit {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  font-size: 1px;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.photo-credit a {
-  color: rgba(255, 255, 255, 0.9);
-  text-decoration: none;
-}
-
-.photo-credit a:hover {
-  text-decoration: underline;
 }
 
 .signin p {

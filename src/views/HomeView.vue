@@ -3,7 +3,7 @@
     <!-- Hero Section -->
     <header class="hero text-white d-flex align-items-center justify-content-center">
       <div class="overlay"></div> <!-- Dark overlay -->
-      <p class="photo-credit">
+      <p class="photo-credit" style="font-size: 0.5em !important;">
         Photo by <a href="https://unsplash.com/@srosinger3997?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash" target="_blank" rel="noopener noreferrer">Samantha Gades</a> on 
         <a href="https://unsplash.com/photos/laughing-people-in-party-fIHozNWfcvs?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash" target="_blank" rel="noopener noreferrer">Unsplash</a>
       </p>
@@ -40,7 +40,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* Ensure full height and flex layout */
 .landing-container {
   display: flex;
@@ -102,23 +102,6 @@ export default {
 .transparent-btn:hover {
   background-color: #ffffff; /* Light background when hovered */
   color: #0056b3; /* Dark blue text on hover */
-}
-
-.photo-credit {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  font-size: 1px;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.photo-credit a {
-  color: rgba(255, 255, 255, 0.9);
-  text-decoration: none;
-}
-
-.photo-credit a:hover {
-  text-decoration: underline;
 }
 
 .pumbook {
