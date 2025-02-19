@@ -94,13 +94,10 @@ export default {
         router.push({ path: '/events' })
       } catch ({ response }) {
         this.errorOccured = true;
-        if (response.data) {
-          const { code, message, data } = response.data;
-          if (code === 401 && data === 'AUTH_TOKEN_EXPIRED') {
-            this.$store.dispatch('handleSignOut');
-          } else {
-            this.errorMessage = message;
-          }
+        if (err instanceof DomainError) {
+          this.errorMessage = err.message;
+        } else {
+          this.errorMessage = 'Internal Server Error';
         }
       } finally {
         setTimeout(() => {

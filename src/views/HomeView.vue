@@ -3,7 +3,7 @@
     <!-- Hero Section -->
     <header class="hero text-white d-flex align-items-center justify-content-center">
       <div class="overlay"></div> <!-- Dark overlay -->
-      <p class="photo-credit" style="font-size: 0.5em !important;">
+      <p class="photo-credit" style="font-size: 0.8em !important;">
         Photo by <a href="https://unsplash.com/@srosinger3997?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash" target="_blank" rel="noopener noreferrer">Samantha Gades</a> on 
         <a href="https://unsplash.com/photos/laughing-people-in-party-fIHozNWfcvs?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash" target="_blank" rel="noopener noreferrer">Unsplash</a>
       </p>

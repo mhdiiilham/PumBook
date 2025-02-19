@@ -1,8 +1,8 @@
 <template>
   <div class="contact-page">
     <p class="photo-credit" style="font-size: 1em !important;">
-      Photo by <a href="https://unsplash.com/@srosinger3997?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash" target="_blank" rel="noopener noreferrer">Samantha Gades</a> on 
-      <a href="https://unsplash.com/photos/laughing-people-in-party-fIHozNWfcvs?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash" target="_blank" rel="noopener noreferrer">Unsplash</a>
+      Photo by <a href="https://unsplash.com/@julianhochgesang?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Julian Hochgesang</a>
+      on <a href="https://unsplash.com/photos/black-ip-desk-phone-on-black-wooden-table-Dkn8-zPIbwo?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
     </p>
     <div class="container">
       <h1 class="text-center mb-4 text-white">Contact Us</h1>

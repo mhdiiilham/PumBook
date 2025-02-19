@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex justify-content-end align-items-center vh-100 bg-light px-3 animate__backOutDown signin">
-    <p class="photo-credit" style="font-size: 0.5em !important;">
+    <p class="photo-credit" style="font-size: 0.8em !important;">
       Photo by <a href="https://unsplash.com/@thomasw?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Thomas William</a> on <a href="https://unsplash.com/photos/grayscale-photo-of-people-rising-a-drinking-glasses-K8V2NDNJDYo?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
     </p>
     <div class="card shadow p-4" style="width: 100%; max-width: 400px;">
@@ -67,13 +67,14 @@
 
 <script>
 import apiClient from '@/helpers/axios.js';
+import DomainError from '@/helpers/error';
 import router from '@/router';
 
 export default {
   components: {},
   data() {
     return {
-      email: 'hi@muhammadilham.xyz',
+      email: null,
       password: null,
       rememberMe: false,
       failMessage: null,
@@ -104,12 +105,11 @@ export default {
         router.push({ path: '/events' });
 
       } catch (err) {
-        const { response } = err;
-        if (!response) {
-          this.failMessage = 'Internal Server Error';
-        } else {
-          this.failMessage = response.data.message;
+        if (err instanceof DomainError) {
+          this.failMessage = err.message;
           this.password = null;
+        } else {
+          this.failMessage = 'Internal Server Error';
         }
       } finally {
         this.isLoading = false; // Stop loading after API call
