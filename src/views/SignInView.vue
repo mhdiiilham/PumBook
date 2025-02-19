@@ -130,7 +130,7 @@ export default {
 
 .signin {
   position: relative;
-  background: url('@/assets/signin_bg.jpg') center/cover no-repeat;
+  background: url('@/assets/signin-bg.jpg') center/cover no-repeat;
   height: 60vh;
   display: flex;
   align-items: center;

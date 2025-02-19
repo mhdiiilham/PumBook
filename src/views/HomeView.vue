@@ -51,7 +51,7 @@ export default {
 /* Hero Section */
 .hero {
   position: relative;
-  background: url('@/assets/landing.jpg') center/cover no-repeat;
+  background: url('@/assets/landing-bg.jpg') center/cover no-repeat;
   height: 70vh;
   display: flex;
   align-items: center;

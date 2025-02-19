@@ -31,7 +31,7 @@
 <style>
 .about-container {
   position: relative;
-  background: url('@/assets/about-background.jpg') center/cover no-repeat;
+  background: url('@/assets/about-bg.jpg') center/cover no-repeat;
   height: 100vh;
   display: flex;
   justify-content: center;
