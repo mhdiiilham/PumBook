@@ -4,6 +4,7 @@ import SignInView from '@/views/SignInView.vue';
 import HomeView from '../views/HomeView.vue';
 import TermsAndConditionView from '@/views/TermsAndConditionView.vue';
 import AboutView from '@/views/AboutView.vue';
+import ContactView from '@/views/ContactView.vue';
 
 Vue.use(VueRouter);
 
@@ -67,6 +68,12 @@ const routes = [
     component: AboutView,
     meta: { title: 'PumBook - About' },
   },
+  {
+    path: '/contact',
+    name: 'contact',
+    component: ContactView,
+    meta: { title: 'PumBook - Contact Us' },
+  },
 ];
 
 const router = new VueRouter({
@@ -77,14 +84,21 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const isAuthenticated = !!localStorage.getItem('credentials');
+  const allowUnAuthenticatedVisit = ['signin', 'home', 'terms', 'about', 'contact'];
 
-  if (!isAuthenticated && to.name !== 'signin' && to.name !== 'home' && to.name !== 'terms' && to.name != 'about') {
-    document.title = to.meta.title || 'PumBook'; // Default title
-    next({ name: 'signin' });
-  } else {
-    document.title = to.meta.title || 'PumBook'; // Default title
-    next();
+  if (!isAuthenticated && !allowUnAuthenticatedVisit.includes(to.name)) {
+    if (to.name !== 'signin') {
+      console.log("Redirecting to /signin...");
+      return next({ name: 'signin' });
+    }
+  } else if (isAuthenticated && to.name === 'signin') {
+    if (from.name !== 'EventList') { // Prevent unnecessary re-redirect
+      console.log("Redirecting to /events...");
+      return next({ name: 'EventList' });
+    }
   }
+  document.title = to.meta.title || 'PumBook';
+  next();
 });
 
 export default router;

@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <NavBar></NavBar>
+    <NotificationComp :message="$store.state.notification.message" :type="$store.state.notification.type" />
     <router-view/>
     <!-- <FooterBar></FooterBar> -->
     <div id="footer">
@@ -19,11 +20,13 @@
 
 <script>
 import NavBar from './components/NavBar.vue';
+import NotificationComp from './components/NotificationComp.vue';
 
 export default {
   name: 'HomeView',
   components: {
     NavBar,
+    NotificationComp,
   },
   mounted() {
     this.$store.dispatch('loadCredential');

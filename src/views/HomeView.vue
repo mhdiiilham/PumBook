@@ -52,7 +52,7 @@ export default {
 .hero {
   position: relative;
   background: url('@/assets/landing.jpg') center/cover no-repeat;
-  height: 60vh;
+  height: 70vh;
   display: flex;
   align-items: center;
   justify-content: center;

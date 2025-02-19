@@ -78,6 +78,10 @@ export default {
       rememberMe: false,
       failMessage: null,
       isLoading: false,
+      notification: {
+        message: '',
+        type: '',
+      },
     };
   },
   methods: {
@@ -90,8 +94,15 @@ export default {
           password: this.password,
           remember: this.rememberMe,
         });
+        this.$store.dispatch('setNotification', {
+          message: `Welcome ${response.data.data.email}`,
+          type: 'success'
+        });
         this.$store.dispatch('setCredential', { response: response.data, remember: this.rememberMe });
-      } catch ({ response }) {
+        router.push({ path: '/events' });
+      } catch (err) {
+        console.log('err', err)
+        const { response } = err;
         if (!response) {
           this.failMessage = 'Internal Server Error';
         } else {
@@ -100,7 +111,6 @@ export default {
         }
       } finally {
         this.isLoading = false; // Stop loading after API call
-        router.push({ path: '/events' });
       }
     },
   },

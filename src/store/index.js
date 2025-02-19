@@ -11,6 +11,10 @@ export default new Vuex.Store({
     role: null,
     currentPage: 'events',
     accessToken: null,
+    notification: {
+      message: null,
+      type: null,
+    },
   },
   getters: {
   },
@@ -27,9 +31,19 @@ export default new Vuex.Store({
     SET_ACCESS_TOKEN(state, payload) {
       state.accessToken = payload;
     },
+    SET_NOTIFICATION_MESSAGE(state, payload) {
+      state.notification.message = payload;
+    },
+    SET_NOTIFICATION_TYPE(state, payload) {
+      state.notification.type = payload;
+    },
   },
   actions: {
-    async setCredential({ commit, _ }, payload) {
+    setNotification({ commit, _ }, payload ) {
+      commit('SET_NOTIFICATION_MESSAGE', payload.message);
+      commit('SET_NOTIFICATION_TYPE', payload.type);
+    },
+    async setCredential({ commit,  }, payload) {
       const { data } = payload.response;
       commit('SET_IS_LOGGED', true);
       commit('SET_LOGGED_EMAIL', data.email);
@@ -47,12 +61,17 @@ export default new Vuex.Store({
         dispatch('setCredential', {response: { data }, remember: remember });
       }
     },
-    async handleSignOut({ commit, _ }) {
+    async handleSignOut({ commit, dispatch }) {
+      console.log('sign out...');
       localStorage.clear();
       commit('SET_IS_LOGGED', false);
       commit('SET_LOGGED_EMAIL', null);
       commit('SET_LOGGED_ROLE', null);
       router.push({ path: '/' }).catch(()=>{});
+      dispatch('setNotification', {
+        message: 'We hoping to see you again, soon!',
+        type: 'success'
+      });
     },
   },
   modules: {
