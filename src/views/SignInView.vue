@@ -51,14 +51,15 @@
           </div>
 
           <!-- Button with Loading Spinner -->
-          <button type="submit" class="btn btn-primary btn-lg transparent-btn w-100 position-relative" :disabled="isLoading">
+          <button type="submit" class="btn btn-primary btn-lg transparent-btn w-100 position-relative mb-2" :disabled="isLoading">
             <div class="container">
               <div class="row justify-content-center">
                 <div v-if="isLoading" class="spinner-border text-primary" role="status"></div>
-                <span v-else>Sign In</span>
+                <span v-else style="color: black;">Sign In</span>
               </div>
             </div>
           </button>
+          <small class="text-muted">New To PumBook? <router-link to="/contact">Register now!</router-link></small>
         </form>
       </div>
     </div>
@@ -86,6 +87,9 @@ export default {
     };
   },
   methods: {
+    handleToRegister() {
+      router.push({path: '/contact'})
+    },
     async handleSignIn() {
       console.log('Logging in...');
       this.isLoading = true; // Start loading when button is clicked

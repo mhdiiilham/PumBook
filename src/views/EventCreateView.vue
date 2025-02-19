@@ -2,50 +2,69 @@
   <div class="event animate__backInDown d-flex justify-content-center" style="padding-top: 2em;">
     <div class="container">
       <div class="card shadow p-4 mx-auto responsive-card">
-        <h1 class="text-center">Events</h1>
+        <h1 class="text-center">Plan your next event!</h1>
         <div class="alert alert-dark" role="alert" v-if="errorOccured">
           {{ errorMessage }}
         </div>
         <form @submit.prevent="handleCreateEvent">
-          <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" v-model="eventDetail.name" class="form-control" id="name" placeholder="Your event name">
-          </div>
-          <div class="mb-3">
-            <label for="host" class="form-label">Host</label>
-            <input type="text" v-model="eventDetail.host" class="form-control" id="host" placeholder="Who host the event?">
-          </div>
-          <div class="mb-3">
-            <label for="location" class="form-label">Location</label>
-            <input type="text" v-model="eventDetail.location" class="form-control" id="location" placeholder="Where it'll be held?">
-          </div>
-          <div class="mb-3">
-            <div class="container text-center">
-              <div class="row align-items-start">
-                <div class="col">
-                  <label for="start-date" class="form-label">Start Date</label>
-                  <input type="date" v-model="eventDetail.startDate" class="form-control" id="start-date" placeholder="When it'll be held?">
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <div class="mb-3">
+                  <label for="name" class="form-label">Name</label>
+                  <input type="text" v-model="eventDetail.name" class="form-control" id="name" placeholder="Your event name" required>
+                  <div class="invalid-feedback">
+                    Please provide the name of your event.
+                  </div>
                 </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col" id="host">
+                <div class="mb-3">
+                  <label for="host" class="form-label">Host</label>
+                  <input type="text" v-model="eventDetail.host" class="form-control" id="host" placeholder="Who host the event?" required>
+                </div>
+              </div>
+              <div class="col" id="location">
+                <div class="mb-3">
+                  <label for="location" class="form-label">Location</label>
+                  <input type="text" v-model="eventDetail.location" class="form-control" id="location" placeholder="Where it'll be held?" required>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col" id="start-date">
+                <label for="start-date" class="form-label">Start Date</label>
+                <input type="date" v-model="eventDetail.startDate" class="form-control" id="start-date" placeholder="When it'll be held?" required>
+              </div>
+              <div class="col" id="end-date">
                 <div class="col">
                   <label for="end-date" class="form-label">End Date</label>
                   <input type="date" v-model="eventDetail.endDate" class="form-control" id="end-date" placeholder="When it'll be done?">
                 </div>
               </div>
             </div>
-          </div>
-          <div class="mb-3">
-            <label for="whats-app-message-template" class="form-label">WhatsApp Message Template</label>
-            <textarea class="form-control" id="whats-app-message-template" v-model="eventDetail.messageTemplate" rows="3"></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="invitation-url" class="form-label">Digital Invitation Url (with query name parameter)</label>
-            <input type="text" v-model="eventDetail.digitalInvitationURL" class="form-control" id="invitation-url" placeholder="https://wedding.muhammadilham.xyz/?name=ilham">
-          </div>
-          <div>
-            <div class="spinner-border" role="status" v-if="isLoading">
-              <span class="visually-hidden">Loading...</span>
+            <div class="row" id="message-template">
+              <div class="mb-3">
+                <label for="whats-app-message-template" class="form-label">WhatsApp Message Template</label>
+                <textarea class="form-control" id="whats-app-message-template" v-model="eventDetail.messageTemplate" rows="3"></textarea>
+              </div>
             </div>
-            <button v-else type="submit" class="btn btn-primary">Create</button>
+            <div class="row" id="invitation-url">
+              <div class="mb-3">
+                <label for="invitation-url" class="form-label">Digital Invitation Url (with query name parameter)</label>
+                <input type="text" v-model="eventDetail.digitalInvitationURL" class="form-control" id="invitation-url" placeholder="https://wedding.muhammadilham.xyz/?name=ilham">
+              </div>
+            </div>
+            <div class="row">
+              <div>
+                <div class="spinner-border" role="status" v-if="isLoading">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <button v-else type="submit" class="btn btn-primary">Create</button>
+              </div>
+            </div>
           </div>
         </form>
       </div>
