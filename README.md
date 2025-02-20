@@ -1,6 +1,10 @@
 # guest-management-system
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/a4d9924d-b964-45bc-9cba-f780784180ef/deploy-status)](https://app.netlify.com/sites/pumbook/deploys)
+<p align="center">
+  <a href="https://app.netlify.com/sites/pumbook/deploys">
+    <img src="https://api.netlify.com/api/v1/badges/a4d9924d-b964-45bc-9cba-f780784180ef/deploy-status" alt="Netlify Status">
+  </a>
+</p>
 
 ## Project setup
 ```
