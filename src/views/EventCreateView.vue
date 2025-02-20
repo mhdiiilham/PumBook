@@ -109,8 +109,13 @@ export default {
           'message_template': this.eventDetail.messageTemplate,
         };
 
-        await apiClient.post('/events', payload, {headers: { 'Authorization': `Bearer ${this.$store.state.accessToken}` }})
-        router.push({ path: '/events' })
+        const response = await apiClient.post('/events', payload, {headers: { 'Authorization': `Bearer ${this.$store.state.accessToken}` }})
+        const apiResponseData = response.data.data;
+        const newlyCreatedEventUUID = apiResponseData.uuid;
+
+        this.$store.dispatch('setNotification', { message: `Event: ${this.eventDetail.name} created!`, type: 'success' });
+
+        router.push({ path: `/events/${newlyCreatedEventUUID}` });
       } catch ({ response }) {
         this.errorOccured = true;
         if (err instanceof DomainError) {

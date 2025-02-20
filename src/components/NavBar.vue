@@ -26,6 +26,7 @@
     <div v-if="$store.state.isLogged" :class="['sidebar', { open: isSidebarOpen }]">
       <button class="close-btn" @click="toggleSidebar">×</button>
       <ul class="list-unstyled">
+        <li><router-link class="nav-link" to="/profile" @click="toggleSidebar">Profile</router-link></li>
         <li><router-link class="nav-link" to="/events" @click="toggleSidebar">Events</router-link></li>
         <li><router-link class="nav-link" to="/events/create" @click="toggleSidebar">Create Event</router-link></li>
         <li><button @click="handleSignOut" class="nav-link">Sign Out</button></li>

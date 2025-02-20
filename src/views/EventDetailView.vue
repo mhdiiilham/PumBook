@@ -97,6 +97,9 @@
                   <div class="col">
                     <button type="submit" :class="{ disabled: isLoading }" class="btn btn-outline-primary">Save</button>
                   </div>
+                  <div class="col" v-if="$store.state.role === 'super_admin'">
+                    <button type="button" :class="{ disabled: isLoading }" @click="handleRemoveEvent" class="btn btn-outline-danger">Delete Event</button>
+                  </div>
                   <div class="col">
                     <button type="button" :class="{ disabled: isLoading }" @click="handleToCheckInPage" class="btn btn-outline-primary">Check-In Page</button>
                   </div>
@@ -182,7 +185,8 @@
                     <th scope="col">Name</th>
                     <th scope="col">Phone Number</th>
                     <th scope="col">Will Attend?</th>
-                    <th scope="col">VIP?</th>
+                    <th scope="col">VIP</th>
+                    <th scope="col">Arrived</th>
                     <th scope="col">Sent Invitation</th>
                     <th scope="col">X</th>
                   </tr>
@@ -199,7 +203,7 @@
                       </select>
                     </td>
                     <td><input type="checkbox" v-model="newGuest.is_vip"></td>
-                    <td><button class="btn btn-outline-primary btn-sm w-100 text-nowrap" @click="addGuest">Submit</button></td>
+                    <td colspan="3"><button class="btn btn-outline-primary btn-sm w-100 text-nowrap" @click="addGuest">Submit</button></td>
                   </tr>
                   <tr v-show="isRefetchinguest">
                     <td colspan="7">
@@ -221,6 +225,9 @@
                     <td v-if="guest.will_attend_event == null">Waiting for confirmation</td>
                     <td>
                       <input type="checkbox" :disabled="successMessage" v-model="guest.is_vip" @change="updateVIPStatus(guest)">
+                    </td>
+                    <td>
+                      <input type="checkbox" disabled v-model="guest.is_arrived">
                     </td>
                     <td><button class="btn btn-outline-primary btn-sm w-100 text-nowrap" @click="sentGuestInvitation(guest)">{{ guest.is_invitation_sent ? 'Re-' : '' }}Sent Invitation</button></td>
                     <td><button class="btn-close btn-sm w-100" @click="handleRemoveGuest(guest)"></button></td>
@@ -259,6 +266,7 @@
 
 <script>
 import apiClient from '@/helpers/axios';
+import DomainError from '@/helpers/error';
 import router from '@/router';
 
 export default {
@@ -300,6 +308,21 @@ export default {
     };
   },
   methods: {
+    async handleRemoveEvent() {
+      try {
+        if (confirm(`do you want to delete event: ${this.event.name}?`)) {
+          await apiClient.delete(`/events/${this.event.uuid}`, {
+            headers: {Authorization: `Bearer ${this.$store.state.accessToken}`},
+          })
+          router.push({ path: '/events' });
+          this.$store.dispatch('setNotification', { message: 'Event deleted', type: 'success' })
+        }
+        
+      } catch (err) {
+        console.log(err, 'error')
+        this.$store.dispatch('setNotification', { message: 'Failed to delete this event.', type: 'error' })
+      }
+    },
     handleToCheckInPage() {
       router.push({ path: `/events/${this.event.uuid}/checkin` });
     },

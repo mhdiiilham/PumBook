@@ -30,9 +30,8 @@
               </div>
             </div>
           </div>
-
           <router-link
-            v-else
+            v-show="!isLoading"
             :to="'/events/' + event.uuid"
             v-for="event in formattedEvents"
             :key="event.uuid"
