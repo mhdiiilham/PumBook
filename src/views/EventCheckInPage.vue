@@ -1,110 +1,149 @@
 <template>
   <div class="check-in-container">
-    <h2>Scan QR Code to Check-In</h2>
-
-    <div class="container">
-      <!-- Guest Information Card -->
-      <div class="row" v-if="scannedData">
-        <div class="card p-4 mb-4 guest-card">
-          <button class="close-btn" @click="scannedData = null">✖</button>
-          <h3>Guest Information: </h3>
-          <p><strong>Name:</strong> {{ scannedData.name }} <span v-if="scannedData.is_vip">⭐️</span></p>
-        </div>
+    <!-- Guest Info Card -->
+    <div class="guest-card">
+      <h4>Please scan you barcode</h4>
+    </div>
+    <div class="guest-card" v-if="guest">
+      <div v-if="guest.is_vip">
+        <p style="font-size: 1.5em;">
+          Welcome, <strong>{{ guest.name }}</strong>! 🎉 <br/>
+          We're honored to have you here. Enjoy the VIP experience! ⭐️
+        </p>
       </div>
-
-      <!-- SCANNER -->
-      <div class="row justify-content-center">
-        <div class="card p-4 text-center" style="max-width: 70%;">
-          <StreamBarcodeReader @decode="onDecode" @loaded="onLoaded"/>
-        </div>
+      <div v-else>
+        <p>
+          Nice to see you, <strong>{{ guest.name }}</strong>! 😃 <br/>
+          Let’s make great memories today!
+        </p>
       </div>
     </div>
 
+    <!-- QR Scanner -->
+    <div class="scanner-container">
+      <video ref="video" autoplay></video>
+    </div>
   </div>
 </template>
 
 <script>
-import { StreamBarcodeReader } from "vue-barcode-reader";
+import QrScanner from "qr-scanner";
 
 export default {
-  components: {
-    StreamBarcodeReader,
-  },
   data() {
     return {
-      scannedData: null,
-      error: null,
+      guest: null,
+      scanner: null,
+      currentFacingMode: "user", // "user" (front) | "environment" (back)
     };
   },
+  mounted() {
+    this.startScanner();
+  },
   methods: {
-    onDecode(text) {
-      console.log(`Decode text from QR code is ${text}`)
-      this.scannedData = JSON.parse(atob(text))
-      setTimeout(() => {
-        this.scannedData = null;
-      }, 15000);
+    startScanner() {
+      if (this.scanner) {
+        this.scanner.destroy();
+      }
+
+      this.scanner = new QrScanner(
+        this.$refs.video,
+        (result) => {
+          console.log("Scanned QR Code:", result);
+          try {
+            this.guest = JSON.parse(atob(result.data));
+            setTimeout(() => {
+              this.guest = null;
+            }, 5000);
+          } catch (e) {
+            console.error("Invalid QR Code format");
+          }
+        },
+        {
+          preferredCamera: this.currentFacingMode,
+        }
+      );
+
+      this.scanner.start();
     },
-    onLoaded() {
-      console.log(`Ready to start scanning barcodes`)
+    toggleCamera() {
+      this.currentFacingMode =
+        this.currentFacingMode === "user" ? "environment" : "user";
+      this.startScanner();
     },
-  }
+  },
+  beforeDestroy() {
+    if (this.scanner) {
+      this.scanner.destroy();
+    }
+  },
 };
 </script>
 
 <style>
+/* Background Image */
 .check-in-container {
   text-align: center;
   padding: 20px;
+  min-height: 100vh;
+  background: url('@/assets/checkin-bg.jpg') no-repeat center center/cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
+
+/* Glassy Guest Info Card */
+.guest-card {
+  background: rgba(0, 0, 0, 0.3); /* Slightly more opaque */
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  margin-bottom: 20px;
+  max-width: 600px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Improve text readability */
+.guest-card p {
+  color: #ffffff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+
+/* QR Scanner Video */
+.scanner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+video {
+  width: 60%;
+  max-width: 600px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Button */
 .toggle-button {
   margin-top: 15px;
   padding: 10px 15px;
   border: none;
-  background: #007bff;
+  background: rgba(0, 123, 255, 0.9);
   color: white;
   font-size: 16px;
   cursor: pointer;
   border-radius: 5px;
 }
+
 .toggle-button:hover {
-  background: #0056b3;
-}
-.scanned-result {
-  margin-top: 20px;
-  background: #d4edda;
-  padding: 10px;
-  border-radius: 5px;
-}
-.error-message {
-  margin-top: 20px;
-  color: red;
-}
-
-.guest-card {
-  position: relative;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  text-align: left;
-  max-width: 400px;
-  margin: auto;
-}
-
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  border: none;
-  background: transparent;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.close-btn:hover {
-  color: red;
-}
-
-p {
-  margin: 5px 0;
+  background: rgba(0, 86, 179, 0.9);
 }
 </style>
