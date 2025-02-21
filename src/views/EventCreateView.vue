@@ -26,13 +26,24 @@
                   <input type="text" v-model="eventDetail.host" class="form-control" id="host" placeholder="Who host the event?" required>
                 </div>
               </div>
-              <div class="col" id="location">
+              <div class="col" id="type">
+                <div class="mb-3">
+                  <label for="event-type" class="form-label">Type of event: {{ eventDetail.eventType }}</label>
+                  <select class="form-select" aria-label="Type of event" v-model="eventDetail.eventType">
+                  <option value="" disabled selected>What kind of event you're hosting?</option>
+                  <option v-for="(eventType, index) in eventTypes" :key="index" :value="eventType">
+                    {{ formatEventType(eventType) }}
+                  </option>
+                </select>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3" id="location">
                 <div class="mb-3">
                   <label for="location" class="form-label">Location</label>
                   <input type="text" v-model="eventDetail.location" class="form-control" id="location" placeholder="Where it'll be held?" required>
                 </div>
               </div>
-            </div>
             <div class="row mb-3">
               <div class="col" id="start-date">
                 <label for="start-date" class="form-label">Start Date</label>
@@ -90,10 +101,35 @@ export default {
         digitalInvitationURL: null,
         host: null,
         messageTemplate: null,
+        eventType: '',
       },
+      eventTypes: [
+        'wedding',
+        'networking',
+        'conferences',
+        'product_launches',
+        'festival',
+        'sport',
+        'birthday',
+        'charity',
+        'cultural',
+        'concert',
+        'comedy',
+        'gathering',
+        'exhibition',
+        'workshop',
+        'team_building',
+        'other'
+      ],
     };
   },
   methods: {
+    formatEventType(eventType) {
+      return eventType
+        .split('_') // Split by underscore
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
+        .join(' '); // Join back with spaces
+    },
     async handleCreateEvent() {
       this.isLoading = true;
       const startDate = new Date(this.eventDetail.startDate).toISOString();

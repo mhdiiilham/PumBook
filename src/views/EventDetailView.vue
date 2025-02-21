@@ -46,14 +46,22 @@
                       </div>
                     </div>
 
-                    <div class="col" id="location">
+                    <div class="col" id="type">
                       <div class="mb-3">
-                        <label for="location" class="form-label">Location</label>
-                        <div v-if="isLoading" class="skeleton-loader"></div>
-                        <input v-else type="text" v-model="event.location" class="form-control" id="location" placeholder="Where it'll be held?">
+                        <label for="event-type" class="form-label">Type of event:</label>
+                        <select class="form-select" aria-label="Type of event" v-model="event.eventType">
+                        <option v-for="(eventType, index) in eventTypes" :key="index" :value="eventType" :selected="event.eventType === event">
+                          {{ formatEventType(eventType) }}
+                        </option>
+                      </select>
                       </div>
                     </div>
                   </div>
+              </div>
+              <div class="row mb-3" id="location">
+                <label for="location" class="form-label">Location</label>
+                <div v-if="isLoading" class="skeleton-loader"></div>
+                <input v-else type="text" v-model="event.location" class="form-control" id="location" placeholder="Where it'll be held?">
               </div>
               <div class="mb-3">
                 <div class="container">
@@ -289,6 +297,7 @@ export default {
         guestList: [],
         host: null,
         messageTemplate: null,
+        eventType: 'other'
       },
       errorMessage: null,
       newGuest: {
@@ -305,9 +314,33 @@ export default {
       successMessage: null,
       detailMessage: null,
       isRefetchinguest: false,
+      eventTypes: [
+        'wedding',
+        'networking',
+        'conferences',
+        'product_launches',
+        'festival',
+        'sport',
+        'birthday',
+        'charity',
+        'cultural',
+        'concert',
+        'comedy',
+        'gathering',
+        'exhibition',
+        'workshop',
+        'team_building',
+        'other'
+      ],
     };
   },
   methods: {
+    formatEventType(eventType) {
+      return eventType
+        .split('_') // Split by underscore
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
+        .join(' '); // Join back with spaces
+    },
     async handleRemoveEvent() {
       try {
         if (confirm(`do you want to delete event: ${this.event.name}?`)) {
@@ -349,6 +382,7 @@ export default {
         this.event.guestList = data.guest_list;
         this.event.host = data.host;
         this.event.messageTemplate = data.message_template;
+        this.event.eventType = data.event_type
 
       } catch ({ response }) {
         if (response.data) {
@@ -422,17 +456,13 @@ export default {
           'digital_invitation_url': this.event.digitalInvitationURL,
           'host': this.event.host,
           'message_template': this.event.messageTemplate,
+          'event_type': this.event.eventType,
         };
 
         await apiClient.patch(`/events/${this.event.uuid}`, payload, {headers: { 'Authorization': `Bearer ${this.$store.state.accessToken}` }})
-        this.detailMessage = 'Event updated!';
+        this.$store.dispatch('setNotification', { message: `Updating event: ${this.event.name} success`, type: 'success' })
       } catch (error) {
-        this.errorMessage = 'Failed to update event';
-      } finally {
-        setTimeout(() => {
-          this.detailMessage = null;
-          this.fetchEventDetail();
-        }, 500);
+        this.$store.dispatch('setNotification', { message: `failed to update event: ${this.event.name}`, type: 'error' })
       }
     },
     async handleRemoveGuest(guest) {

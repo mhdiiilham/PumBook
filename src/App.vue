@@ -3,7 +3,6 @@
     <NavBar></NavBar>
     <NotificationComp :message="$store.state.notification.message" :type="$store.state.notification.type" />
     <router-view/>
-    <!-- <FooterBar></FooterBar> -->
     <div id="footer">
       <footer class="bg-body-tertiary text-center text-lg-start">
         <!-- Copyright -->

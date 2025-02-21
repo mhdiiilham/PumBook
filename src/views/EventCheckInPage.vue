@@ -3,6 +3,7 @@
     <!-- Guest Info Card -->
     <div class="guest-card">
       <h4>Please scan you barcode</h4>
+      <!-- <p>{{ JSON.stringify(guest) }}: {{ eventUUID }}</p> -->
     </div>
     <div class="guest-card" v-if="guest">
       <div v-if="guest.is_vip">
@@ -23,15 +24,22 @@
     <div class="scanner-container">
       <video ref="video" autoplay></video>
     </div>
+
+    <p class="photo-credit">
+      Photo by <a href="https://unsplash.com/@ninjason?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Jason Leung</a> on <a href="https://unsplash.com/photos/selective-focus-photography-of-multicolored-confetti-lot-Xaanw0s0pMk?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+     </p>
   </div>
 </template>
 
 <script>
+import apiClient from "@/helpers/axios";
+import DomainError from "@/helpers/error";
 import QrScanner from "qr-scanner";
 
 export default {
   data() {
     return {
+      eventUUID: '',
       guest: null,
       scanner: null,
       currentFacingMode: "user", // "user" (front) | "environment" (back)
@@ -41,6 +49,19 @@ export default {
     this.startScanner();
   },
   methods: {
+    async updateGuestArrivalStatus(scannedGuest) {
+      try {
+        await apiClient.post(`/events/${this.$route.params.id}/guests/arrived?short_id=${scannedGuest.short_id}&is_arrived=true`, {}, {
+          headers: { Authorization: `Bearer ${this.$store.state.accessToken}` }
+        })
+        this.$store.dispatch('setNotification', { message: `Guest ${scannedGuest.name} arrived`, type: 'success' })
+      } catch (err) {
+        if (err instanceof DomainError) {
+          this.$store.dispatch('setNotification', { message: err.message, type: 'error' })
+        }
+        this.$store.dispatch('setNotification', { message: 'Internal Server Error', type: 'error' })
+      }
+    },
     startScanner() {
       if (this.scanner) {
         this.scanner.destroy();
@@ -52,6 +73,7 @@ export default {
           console.log("Scanned QR Code:", result);
           try {
             this.guest = JSON.parse(atob(result.data));
+            this.updateGuestArrivalStatus(this.guest);
             setTimeout(() => {
               this.guest = null;
             }, 5000);
