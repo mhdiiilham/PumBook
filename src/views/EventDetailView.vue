@@ -59,11 +59,17 @@
                     </div>
                   </div>
               </div>
-              <div class="row mb-3" id="location">
-                <label for="location" class="form-label">Location</label>
-                <div v-if="isLoading" class="skeleton-loader"></div>
-                <input v-else type="text" v-model="event.location" class="form-control" id="location" placeholder="Where it'll be held?">
+
+              <div class="container">
+                <div class="row">
+                  <div class="mb-3" id="location">
+                    <label for="location" class="form-label">Location</label>
+                    <div v-if="isLoading" class="skeleton-loader"></div>
+                    <input v-else type="text" v-model="event.location" class="form-control" id="location" placeholder="Where it'll be held?">
+                  </div>
+                </div>
               </div>
+
               <div class="mb-3">
                 <div class="container">
                   <div class="row">
