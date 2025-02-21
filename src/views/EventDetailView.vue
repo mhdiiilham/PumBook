@@ -49,7 +49,8 @@
                     <div class="col" id="type">
                       <div class="mb-3">
                         <label for="event-type" class="form-label">Type of event:</label>
-                        <select class="form-select" aria-label="Type of event" v-model="event.eventType">
+                        <div v-if="isLoading" class="skeleton-loader"></div>
+                        <select v-else class="form-select" aria-label="Type of event" v-model="event.eventType">
                         <option v-for="(eventType, index) in eventTypes" :key="index" :value="eventType" :selected="event.eventType === event">
                           {{ formatEventType(eventType) }}
                         </option>
