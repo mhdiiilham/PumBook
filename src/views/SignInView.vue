@@ -59,7 +59,7 @@
               </div>
             </div>
           </button>
-          <small class="text-muted">New To PumBook? <router-link to="/contact">Register now!</router-link></small>
+          <small class="text-muted">New To PumBook? <router-link to="/signup">Register now!</router-link></small>
         </form>
       </div>
     </div>

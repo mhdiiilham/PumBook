@@ -5,6 +5,7 @@ import HomeView from '../views/HomeView.vue';
 import TermsAndConditionView from '@/views/TermsAndConditionView.vue';
 import AboutView from '@/views/AboutView.vue';
 import ContactView from '@/views/ContactView.vue';
+import SignUpView from '@/views/SignUpView.vue';
 
 Vue.use(VueRouter);
 
@@ -20,6 +21,12 @@ const routes = [
     name: 'signin',
     component: SignInView,
     meta: { title: 'PumBook - Sign-In' },
+  },
+  {
+    path: '/signup',
+    name: 'signup',
+    component: SignUpView,
+    meta: { title: 'PumBook - Sign-Up' },
   },
   {
     path: '/events',
@@ -93,7 +100,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const isAuthenticated = !!localStorage.getItem('credentials');
-  const allowUnAuthenticatedVisit = ['signin', 'home', 'terms', 'about', 'contact'];
+  const allowUnAuthenticatedVisit = ['signin', 'home', 'terms', 'about', 'contact', 'signup'];
 
   if (!isAuthenticated && !allowUnAuthenticatedVisit.includes(to.name)) {
     if (to.name !== 'signin') {

@@ -359,7 +359,6 @@ export default {
         }
         
       } catch (err) {
-        console.log(err, 'error')
         this.$store.dispatch('setNotification', { message: 'Failed to delete this event.', type: 'error' })
       }
     },

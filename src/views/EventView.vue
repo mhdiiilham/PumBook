@@ -30,6 +30,13 @@
               </div>
             </div>
           </div>
+
+          <div class="container" v-if="events.length === 0">
+            <div class="row">
+              <p>You Don't have any event, yet. <router-link to="/events/create">Plan your event now!</router-link></p>
+            </div>
+          </div>
+
           <router-link
             v-show="!isLoading"
             :to="'/events/' + event.uuid"
@@ -77,7 +84,7 @@
             </div>
           </router-link>
         </div>
-        <nav aria-label="Page navigation example">
+        <nav aria-label="Page navigation example" v-if="events.length > 10">
           <ul class="pagination justify-content-center">
             <li class="page-item" :class="{ 'disabled': currentPage == 1 }">
               <a class="page-link" href="#">Previous</a>
