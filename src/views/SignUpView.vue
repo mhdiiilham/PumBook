@@ -248,7 +248,7 @@ export default {
   z-index: 1;
   max-width: 400px;
   width: 100%;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(12px);
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
