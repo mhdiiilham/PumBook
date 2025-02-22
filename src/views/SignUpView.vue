@@ -1,6 +1,10 @@
 <template>
   <div class="auth-container">
     <div class="overlay"></div>
+    <p class="photo-credit" style="font-size: 0.8em !important;">
+      Photo by <a href="https://unsplash.com/@thisisramiro?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Ramiro Mendes</a>
+      on <a href="https://unsplash.com/photos/closeup-photography-of-gold-colored-ornament-sMCBEI5zkqc?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+    </p>
     <div class="card auth-card p-4">
       <h2 class="text-center text-light mb-4">Sign Up</h2>
 
@@ -53,97 +57,105 @@
           <div class="row">
             <div class="mb-3">
               <label class="form-label">New Password</label>
-              <VuePassword
-                :toggle="true"
-                v-model="password"
-                @score="showScore"
-                :min-length="8"
-                class="w-100"
-                @feedback="showFeedback"
-              />
+              <input type="password" v-model="password" class="form-control" id="password" required />
             </div>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="mb-3">
-            <label class="form-label">Phone Number</label>
-            <div class="d-flex position-relative">
-              <!-- Country Code Dropdown -->
-              <div class="dropdown">
-                <button class="btn btn-outline-secondary dropdown-toggle" type="button" @click="toggleDropdown">
-                  {{ selectedCountryCode.flag }} +{{ selectedCountryCode.phone_international_prefix }}
-                </button>
-                <div v-if="dropdownOpen" class="dropdown-menu show">
-                  <input type="text" class="form-control mb-2" placeholder="Search country..." v-model="searchQuery">
-                  <div class="dropdown-item" 
-                      v-for="(country, index) in filteredCountryCodes" 
-                      :key="index"
-                      @click="selectCountryCode(country)">
-                    {{ country.flag }} {{ country.name }} (+{{ country.phone_international_prefix }})
+          
+          <div class="row">
+            <div class="mb-3">
+              <label class="form-label">Phone Number</label>
+              <div class="d-flex position-relative">
+                <div class="dropdown">
+                  <button class="btn btn-outline-secondary dropdown-toggle" type="button" @click="toggleDropdown">
+                    {{ selectedCountryCode.flag }} +{{ selectedCountryCode.phone_international_prefix }}
+                  </button>
+                  <div v-if="dropdownOpen" class="dropdown-menu show">
+                    <input type="text" class="form-control mb-2" placeholder="Search country..." v-model="searchQuery">
+                    <div class="dropdown-item" 
+                        v-for="(country, index) in filteredCountryCodes" 
+                        :key="index"
+                        @click="selectCountryCode(country)">
+                      {{ country.flag }} {{ country.name }} (+{{ country.phone_international_prefix }})
+                    </div>
                   </div>
                 </div>
+                <input type="tel" class="form-control ms-2" v-model="phoneNumber" placeholder="Enter phone number">
               </div>
-              <!-- Phone Number Input -->
-              <input type="tel" class="form-control ms-2" v-model="phoneNumber" placeholder="Enter phone number">
             </div>
           </div>
+
+          <div class="row">
+            <div class="text-center mb-3">
+            <small class="terms-condition text-light">
+                ⚠️ By signing up, you agree to our
+                <a href="/terms" target="_blank" class="text-warning fw-bold">Terms and Conditions</a>.
+              </small>
+            </div>
+          </div>
+
+          <div class="row">
+            <button type="submit" class="btn btn-primary btn-lg transparent-btn w-100 position-relative mb-2" :disabled="isLoading">
+              <div class="container">
+                <div class="row justify-content-center">
+                  <div v-if="isLoading" class="spinner-border text-primary" role="status"></div>
+                  <span v-else style="color: white;">Sign Up</span>
+                </div>
+              </div>
+            </button>
+          </div>
+
+          <div class="row">
+            <div class="text-center my-3 text-light">or</div>
+          </div>
+
+          <div class="row">
+            <button class="btn btn-outline-light w-100" @click="signInWithGoogle">
+              <i class="bi bi-google"></i> Sign in with Google
+            </button>
+          </div>
+
+          <div class="row">
+            <p class="mt-3 text-center text-light">
+              Already have an account? <router-link to="/signin">Sign In</router-link>
+            </p>
+          </div>
         </div>
-
-        <button type="submit" :disabled="isLoading" class="btn btn-primary w-100">
-          <div v-if="isLoading" class="spinner-border text-info" role="status"></div>
-          <span v-else style="color: black;">Register</span>
-        </button>
       </form>
-
-      <div class="text-center my-3 text-light">or</div>
-
-      <button class="btn btn-outline-light w-100" @click="signInWithGoogle">
-        <i class="bi bi-google"></i> Sign in with Google
-      </button>
-
-      <p class="mt-3 text-center text-light">
-        Already have an account? <router-link to="/signin">Sign In</router-link>
-      </p>
     </div>
   </div>
 </template>
 
 <script>
-import VuePassword from "vue-password-strength-meter";
 import axios from "axios";
 import apiClient from "@/helpers/axios";
 import DomainError from "@/helpers/error";
 
 export default {
-  components: { VuePassword },
   data() {
     return {
       firstName: '',
       lastName: '',
       email: '',
-      password: '!',
+      password: '',
       phoneNumber: '',
       role: '',
       dropdownOpen: false,
       searchQuery: "",
       countryCodes: [],
-      selectedCountryCode: {},
+      selectedCountryCode: {
+        country_code: 'ID',
+        flag: '🇮🇩',
+        phone_international_prefix: 62,
+      },
       errorMessage: null,
       isLoading: false,
       suggestions: [],
     };
   },
   methods: {
-    showFeedback ({suggestions, warning}) {
-      this.suggestions.push(suggestions);
-      this.suggestions.push(warning);
-    },
     toggleDropdown() {
       this.dropdownOpen = !this.dropdownOpen;
-    },
-    showScore (score) {
-      console.log('💯', score)
     },
     async handleSubmit() {
       try {
@@ -181,8 +193,12 @@ export default {
         }
       }
     },
-    signInWithGoogle() {
-      alert('this feature is coming in hot!');
+    signInWithGoogle(event) {
+      event.preventDefault(); // Prevent form submission if inside a form
+      this.errorMessage = "sorry, we're still developing this feature :)";
+      setTimeout(() => {
+        this.errorMessage = null;
+      }, 5000);
       console.log("Google Sign-In Clicked");
     },
     async fetchCountryCodes() {
@@ -191,14 +207,14 @@ export default {
           headers: { Authorization: `Token ${process.env.VUE_APP_COUNTRIES_API_KEY}` }
         })
 
-        
-
-        const {data} = await axios.get('https://ipinfo.io')
+        const { data } = await axios.get('https://ipinfo.io')
 
         this.countryCodes = response.data.countries;
         this.selectedCountryCode = response.data.countries.filter( (country) => {
           return country.country_code === data.country
         })[0]
+
+        console.log('selected country', this.selectedCountryCode)
 
       } catch (error) {
         this.$store.dispatch('setNotification', { message: 'failed to fetch country list', type: 'error' });
@@ -229,12 +245,15 @@ export default {
 <style scoped>
 .auth-container {
   position: relative;
-  height: 100vh;
+  height: 100vh; /* Ensure it takes full height */
   display: flex;
   justify-content: center;
   align-items: center;
   background: url('@/assets/signup-bg.jpg') center/cover no-repeat;
+  padding: 1rem; /* Prevent edges from cutting off */
+  overflow: hidden; /* Prevent scrolling outside */
 }
+
 
 .overlay {
   position: absolute;
@@ -246,56 +265,46 @@ export default {
 .auth-card {
   position: relative;
   z-index: 1;
-  max-width: 400px;
-  width: 100%;
+  max-width: 500px; /* Reduce width slightly */
+  width: 90%; /* Make it responsive */
   background: rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(12px);
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
   padding: 2rem;
+  max-height: 80vh; /* Prevent it from getting too tall */
+  overflow-y: auto; /* Allow scrolling inside the card */
 }
+
 
 .form-label {
   color: #f8f9fa !important; /* Lighten text for better readability */
   font-weight: 500;
 }
 
-.dropdown-menu {
-  max-height: 200px;
-  overflow-y: auto;
-  background: #222;
-  border: 1px solid #444;
+.btn-primary {
+  background-color: #007bff; /* Primary blue */
+  border-color: #007bff;
+  color: white;
 }
 
-.dropdown-item {
-  color: #f8f9fa;
+.btn-primary:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  border-color: #0056b3;
+  color: white !important; /* Ensure text stays white */
 }
 
-.dropdown-item:hover {
-  background: #333;
+.transparent-btn {
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  transition: all 0.3s ease;
 }
 
-.btn-outline-secondary {
-  color: #f8f9fa;
-  border-color: #bbb;
+.transparent-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* Slightly visible white background */
+  color: white !important;
 }
 
-.btn-outline-secondary:hover {
-  background: #444;
-}
-
-.phone-input-container {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.phone-input-container .form-control {
-  flex: 1;
-}
-
-.ms-2 {
-  margin-left: 0.5rem;
-}
 
 </style>

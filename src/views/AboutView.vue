@@ -4,7 +4,7 @@
     <p class="photo-credit" style="font-size: 0.8em !important;">
       Photo by <a href="https://unsplash.com/@goian?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Ian Schneider</a>
       on <a href="https://unsplash.com/photos/person-holding-fire-cracker-shallow-focus-photography-PAykYb-8Er8?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
-      </p>
+    </p>
     <div class="content text-center text-white">
       <h1>About Us</h1>
       <p class="lead">Welcome to PumBook – Your ultimate online guest book for any occasion!</p>

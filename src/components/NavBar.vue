@@ -54,6 +54,11 @@ export default {
       this.$store.dispatch('handleSignOut');
       this.toggleSidebar(); // Close sidebar after sign out
     }
+  },
+  watch: {
+    $route() {
+      this.isSidebarOpen = false;
+    }
   }
 };
 </script>
@@ -112,7 +117,7 @@ export default {
   z-index: 1000;
 }
 .sidebar.open {
-  left: 0;
+  left: 0 !important;
 }
 .sidebar .close-btn {
   position: absolute;

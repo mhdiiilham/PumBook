@@ -1,7 +1,5 @@
 <template>
   <div class="profile-container">
-    <h2 class="profile-title">My Profile</h2>
-
     <div class="container">
       <div class="card p-4">
         <!-- Profile Picture -->

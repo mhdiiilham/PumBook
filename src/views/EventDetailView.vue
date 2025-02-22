@@ -281,7 +281,6 @@
 
 <script>
 import apiClient from '@/helpers/axios';
-import DomainError from '@/helpers/error';
 import router from '@/router';
 
 export default {

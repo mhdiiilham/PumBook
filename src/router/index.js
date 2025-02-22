@@ -6,6 +6,7 @@ import TermsAndConditionView from '@/views/TermsAndConditionView.vue';
 import AboutView from '@/views/AboutView.vue';
 import ContactView from '@/views/ContactView.vue';
 import SignUpView from '@/views/SignUpView.vue';
+import NotFoundView from '@/views/NotFoundView.vue';
 
 Vue.use(VueRouter);
 
@@ -89,6 +90,11 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "profile" */ '../views/ProfileView.vue'),
     meta: { title: 'PumBook - Profile' },
+  },
+  {
+    path: '*',
+    name: 'notfound',
+    component: NotFoundView,
   },
 ];
 

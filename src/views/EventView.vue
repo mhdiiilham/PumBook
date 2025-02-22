@@ -1,18 +1,17 @@
 <template>
   <div class="event animate__backInDown d-flex justify-content-center" style="padding-top: 2em;">
     <div class="container">
-      <div class="card shadow p-4 mb-4 mx-auto responsive-card">
-        <h1 class="text-center">Your Events</h1>
+      <p class="photo-credit" style="font-size: 0.8em !important;">
+        Photo by <a href="https://unsplash.com/@kellysikkema?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Kelly Sikkema</a>
+        on <a href="https://unsplash.com/photos/six-white-sticky-notes--1_RZL8BGBM?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+      </p>
+      <div class="card shadow p-4 mb-4 mx-auto responsive-card list-event-card">
+        <h1 class="text-center" style="font-family: 'Funnel Display', serif;">Your Events</h1>
 
         <div class="list-events">
-          <!-- Skaleton Loader -->
           <div v-if="isLoading">
             <div class="card mb-3 skeleton-card" v-for="n in 5" :key="n">
               <div class="row g-0">
-                <!-- Skeleton Image -->
-                <div class="col-md-4 d-none d-md-block">
-                  <div class="skeleton-loader skeleton-image"></div>
-                </div>
                 <div class="col-12 col-md-8">
                   <div class="card-body">
                     <div class="skeleton-loader skeleton-title"></div>
@@ -31,7 +30,7 @@
             </div>
           </div>
 
-          <div class="container" v-if="events.length === 0">
+          <div class="container" v-if="events.length === 0 && !isLoading">
             <div class="row">
               <p>You Don't have any event, yet. <router-link to="/events/create">Plan your event now!</router-link></p>
             </div>
@@ -46,16 +45,6 @@
             style="max-height: 8em;"
           >
             <div class="row g-0">
-              <!-- Image column: Hidden on mobile -->
-              <div class="col-md-4 d-none d-md-block">
-                <img
-                  :src="event.logo"
-                  class="img-fluid rounded-start"
-                  :alt="`Event ${event.uuid}'s logo'`"
-                >
-              </div>
-
-              <!-- Card-body column: Full width on mobile, 8 columns on medium and up -->
               <div class="col-12 col-md-8" id="event-card-list">
                 <div class="card-body">
                   <div class="container">
@@ -67,15 +56,7 @@
                         <p class="card-text">Host: {{ event.host }}</p>
                       </div>
                       <div class="col">
-                        <p class="card-text">Location: {{ event.location }}</p>
-                      </div>
-                    </div>
-                    <div class="row mb-2 d-none d-md-block">
-                      <div class="col">
                         <p class="card-text">Start Date: {{ event.formattedStartDate }}</p>
-                      </div>
-                      <div class="col">
-                        <p class="card-text">End Date: {{ event.formattedEndDate }}</p>
                       </div>
                     </div>
                   </div>
@@ -155,6 +136,8 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap');
+
 .responsive-card {
   width: 100%;
   max-width: 95%;
@@ -214,24 +197,6 @@ export default {
   overflow: hidden;
 }
 
-.list-events .col-md-4 {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden; /* Hide overflow */
-  position: relative;
-}
-
-.list-events .col-md-4 img {
-  max-width: none;
-  height: 100%;
-  width: auto;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
 .skeleton-loader {
   background: linear-gradient(90deg, #f3f3f3 25%, #ecebeb 50%, #f3f3f3 75%);
   background-size: 200% 100%;
@@ -274,6 +239,52 @@ export default {
 
 .event-card-list {
   overflow: scroll;
+}
+
+/* Background Styling */
+.event {
+  background: url('@/assets/events-bg.jpg') no-repeat center center;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Glossy Effect on Container */
+.list-event-card {
+  background: rgba(255, 255, 255, 0.2); /* Transparent white */
+  backdrop-filter: blur(10px); /* Glassmorphism effect */
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.list-events .card,
+.skeleton-card {
+  background: rgba(255, 255, 255, 0.15); /* Semi-transparent white */
+  backdrop-filter: blur(10px); /* Glass effect */
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+}
+
+.list-events .card:hover {
+  transform: scale(1.02);
+}
+
+.list-events .col-md-4 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* Ensure it takes full height */
+}
+
+.list-events .col-md-4 img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain; /* Keep aspect ratio and fit */
 }
 
 </style>
