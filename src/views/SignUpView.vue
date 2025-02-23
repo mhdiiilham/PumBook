@@ -41,7 +41,7 @@
             <div class="col" v-if="role !== 'organizer'">
               <div class="mb-3">
                 <label for="last-name" class="form-label text-light">Last Name</label>
-                <input type="text" v-model="lastName" class="form-control" id="first-name" />
+                <input type="text" v-model="lastName" class="form-control" id="last-name" />
               </div>
             </div>
 
@@ -203,18 +203,14 @@ export default {
     },
     async fetchCountryCodes() {
       try {
-        const response = await axios.get('https://aaapis.com/api/v1/info/countries/', {
-          headers: { Authorization: `Token ${process.env.VUE_APP_COUNTRIES_API_KEY}` }
-        })
-
         const { data } = await axios.get('https://ipinfo.io')
+        const response = await apiClient.get('/public/countries');
+        const { countries } = response.data.data;
 
-        this.countryCodes = response.data.countries;
-        this.selectedCountryCode = response.data.countries.filter( (country) => {
+        this.countryCodes = countries;
+        this.selectedCountryCode = countries.filter( (country) => {
           return country.country_code === data.country
         })[0]
-
-        console.log('selected country', this.selectedCountryCode)
 
       } catch (error) {
         this.$store.dispatch('setNotification', { message: 'failed to fetch country list', type: 'error' });

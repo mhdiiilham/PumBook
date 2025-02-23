@@ -108,7 +108,6 @@
 
 <script>
 import apiClient from "@/helpers/axios";
-import axios from "axios";
 import VuePassword from "vue-password-strength-meter";
 
 export default {
@@ -200,19 +199,17 @@ export default {
     },
     async fetchCountryCodes() {
       try {
-        const response = await axios.get('https://aaapis.com/api/v1/info/countries/', {
-          headers: { Authorization: `Token ${process.env.VUE_APP_COUNTRIES_API_KEY}` }
-        })
-
-
-        this.countryCodes = response.data.countries;
-        this.selectedCountryCode = response.data.countries.filter( (country) => {
+        const { data } = await apiClient.get('/public/countries');
+        const { countries } = data.data;
+        this.countryCodes = countries;
+        this.selectedCountryCode = countries.filter( (country) => {
           if (country.phone_international_prefix == this.user.countryCode) {
             return country;
           }
         })[0];
 
       } catch (error) {
+        console.log(error, 'errp');
         this.$store.dispatch('setNotification', { message: 'failed to fetch country list', type: 'error' });
       }
     },

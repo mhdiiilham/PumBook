@@ -2,9 +2,10 @@ import store from '@/store';
 import axios from 'axios';
 import DomainError from './error';
 
+const baseURL = process.env.VUE_APP_BASE_URL;
+
 const apiClient = axios.create({
-  // baseURL: 'http://localhost:9091/api/v1', // Base API URL LOCAL
-  baseURL: 'https://gosm.muhammadilham.xyz/api/v1', // Base API URL PRODUCTION
+  baseURL: baseURL,
   headers: {
     'Content-Type': 'application/json',
   },
