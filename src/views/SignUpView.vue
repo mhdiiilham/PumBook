@@ -195,7 +195,7 @@ export default {
     },
     signInWithGoogle(event) {
       event.preventDefault(); // Prevent form submission if inside a form
-      const elem = document.getElementById('signup-container')
+      const elem = document.getElementById('auth-container')
       elem.scrollIntoView({ behavior: "smooth", block: "start" });
 
       this.errorMessage = "sorry, we're still developing this feature :)";
