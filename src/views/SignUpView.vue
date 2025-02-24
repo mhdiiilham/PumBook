@@ -61,7 +61,6 @@
             </div>
           </div>
 
-          
           <div class="row">
             <div class="mb-3">
               <label class="form-label">Phone Number</label>
@@ -195,9 +194,6 @@ export default {
     },
     signInWithGoogle(event) {
       event.preventDefault(); // Prevent form submission if inside a form
-      const elem = document.getElementById('auth-container')
-      elem.scrollIntoView({ behavior: "smooth", block: "start" });
-
       this.errorMessage = "sorry, we're still developing this feature :)";
       setTimeout(() => {
         this.errorMessage = null;

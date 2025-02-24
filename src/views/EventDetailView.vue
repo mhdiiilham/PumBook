@@ -202,7 +202,7 @@
                     <th scope="col">Will Attend?</th>
                     <th scope="col">VIP</th>
                     <th scope="col">Arrived</th>
-                    <th scope="col">Sent Invitation</th>
+                    <!-- <th scope="col">Sent Invitation</th> -->
                     <th scope="col">X</th>
                   </tr>
                 </thead>
@@ -242,9 +242,9 @@
                       <input type="checkbox" :disabled="successMessage" v-model="guest.is_vip" @change="updateVIPStatus(guest)">
                     </td>
                     <td>
-                      <input type="checkbox" disabled v-model="guest.is_arrived">
+                      <p>{{ guest.is_arrived ? 'Arrived' : 'Waiting for arrival' }}</p>
                     </td>
-                    <td><button class="btn btn-outline-primary btn-sm w-100 text-nowrap" @click="sentGuestInvitation(guest)">{{ guest.is_invitation_sent ? 'Re-' : '' }}Sent Invitation</button></td>
+                    <!-- <td><button class="btn btn-outline-primary btn-sm w-100 text-nowrap" @click="sentGuestInvitation(guest)">{{ guest.is_invitation_sent ? 'Re-' : '' }}Sent Invitation</button></td> -->
                     <td><button class="btn-close btn-sm w-100" @click="handleRemoveGuest(guest)"></button></td>
                   </tr>
                 </tbody>
