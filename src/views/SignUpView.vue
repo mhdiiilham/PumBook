@@ -9,7 +9,7 @@
       <h2 class="text-center text-light mb-4">Sign Up</h2>
 
       <form @submit.prevent="handleSubmit">
-        <div class="container">
+        <div class="container" id="signup-container">
 
           <div class="row" v-if="errorMessage">
             <div class="alert alert-danger" role="alert">
@@ -195,6 +195,9 @@ export default {
     },
     signInWithGoogle(event) {
       event.preventDefault(); // Prevent form submission if inside a form
+      const elem = document.getElementById('signup-container')
+      elem.scrollIntoView({ behavior: "smooth", block: "start" });
+
       this.errorMessage = "sorry, we're still developing this feature :)";
       setTimeout(() => {
         this.errorMessage = null;
