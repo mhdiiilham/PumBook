@@ -412,16 +412,6 @@
                 
                 <div class="flex justify-end gap-2">
                   <button 
-                    @click="toggleGuestCheckIn(guest)" 
-                    class="p-2 text-muted-foreground hover:text-foreground border border-border rounded-md"
-                    :title="guest.checkedIn ? 'Mark as not checked in' : 'Mark as checked in'"
-                  >
-                    <component 
-                      :is="guest.checkedIn ? 'X' : 'Check'" 
-                      class="h-4 w-4" 
-                    />
-                  </button>
-                  <button 
                     @click="copyInvitationLink(guest)" 
                     class="p-2 text-muted-foreground hover:text-foreground border border-border rounded-md"
                     title="Copy invitation URL"
