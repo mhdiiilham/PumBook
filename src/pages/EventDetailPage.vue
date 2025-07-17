@@ -326,14 +326,11 @@
                     <td class="py-3 px-4 text-right">
                       <div class="flex justify-end gap-1">
                         <button 
-                          @click="toggleGuestCheckIn(guest)" 
+                          @click="toggleGuestMessageModal(guest)" 
                           class="p-1 text-muted-foreground hover:text-foreground"
-                          :title="guest.checkedIn ? 'Mark as not checked in' : 'Mark as checked in'"
+                          title="View guest message"
                         >
-                          <component 
-                            :is="guest.checkedIn ? 'X' : 'Check'" 
-                            class="h-4 w-4" 
-                          />
+                          <MessageSquare class="h-4 w-4"/>
                         </button>
                         <button 
                           @click="copyInvitationLink(guest)" 
@@ -412,6 +409,13 @@
                 
                 <div class="flex justify-end gap-2">
                   <button 
+                    @click="toggleGuestMessageModal(guest)" 
+                    class="p-2 text-muted-foreground hover:text-foreground border border-border rounded-md"
+                    title="View guest message"
+                  >
+                    <MessageSquare class="h-4 w-4"/>
+                  </button>
+                  <button 
                     @click="copyInvitationLink(guest)" 
                     class="p-2 text-muted-foreground hover:text-foreground border border-border rounded-md"
                     title="Copy invitation URL"
@@ -424,13 +428,6 @@
                     title="Send to WhatsApp"
                   >
                     <MessageCircle class="h-4 w-4"/>
-                  </button>
-                  <button 
-                    @click="deleteGuest(guest)" 
-                    class="p-2 text-muted-foreground hover:text-destructive border border-border rounded-md"
-                    title="Delete guest"
-                  >
-                    <Trash2 class="h-4 w-4" />
                   </button>
                 </div>
               </div>
@@ -606,6 +603,26 @@
         </div>
       </div>
     </div>
+
+    <!-- Message Modal -->
+    <div v-if="showMessageModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div class="bg-background rounded-lg shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div class="p-4 sm:p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold">Message from {{ selectedGuest?.name }}</h3>
+            <button @click="showMessageModal = false" class="text-muted-foreground hover:text-foreground">
+              <X class="h-5 w-5" />
+            </button>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="bg-muted/50 rounded-lg p-4 max-h-96 overflow-y-auto">
+              <pre class="whitespace-pre-wrap text-sm font-mono">{{ guestMessage }}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -616,7 +633,7 @@ import { useStore } from 'vuex';
 import { 
   Calendar, MapPin, Users, Edit, QrCode, AlignLeft, 
   UserPlus, Upload, Search, Check, X, Trash2, Loader2,
-  FileText, MessageCircle, ClipboardCopy
+  FileText, MessageCircle, ClipboardCopy, MessageSquare
 } from 'lucide-vue-next';
 import apiClient from '../api/axios';
 
@@ -645,6 +662,9 @@ const editForm = reactive({
 });
 
 // Guest management state
+const showMessageModal = ref(false);
+const selectedGuest = ref(null);
+const guestMessage = ref('');
 const loadingGuests = ref(true);
 const guests = ref([]);
 const guestSearch = ref('');
@@ -661,6 +681,12 @@ const newGuest = reactive({
   phone: '',
   vip: false,
 });
+
+const toggleGuestMessageModal = (guest) => {
+  selectedGuest.value = guest;
+  guestMessage.value = guest.message || 'No message from this guest.';
+  showMessageModal.value = true;
+};
 
 // Fetch event data
 onMounted(async () => {
@@ -801,6 +827,7 @@ const fetchGuests = async () => {
   try {
     const response = await apiClient.get(`/events/${eventId.value}/guests`)
     const { data } = response.data;
+    console.log(data)
     guests.value = data;
   } catch (err) {
     console.error('Error fetching guests:', err);
