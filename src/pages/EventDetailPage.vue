@@ -895,12 +895,47 @@ Hanida & Ilham`
 }
 
 const sendToWhatsApp = (guest) => {
-  // const message = 
+  const message = `Dear ${guest.name},
 
-  // const encodedMessage = encodeURIComponent(message);
+A little note from our hearts
+We’re tying the knot! ♡
+And it wouldn’t feel complete without you there.
 
-  // const url = `https://wa.me/${guest.phone}?text=${encodedMessage}`;
-  // window.open(url, '_blank');
+With all the love and excitement,
+we are delighted to invite you to share in the joy of our wedding day:
+
+Hanida & Ilham
+
+♡ Saturday, August 2nd, 2025
+♡ Akad Ceremony at 2:00 PM
+♡ Wedding Reception at 4:00 PM
+♡ Kalyana Resort
+Jl. Kaliurang KM 22, Pakem, Sleman, DIY 55585
+
+We hope you can join us as we step into this new chapter of life, surrounded by the people who matter most.
+
+Here’s our full invitation for more details:
+⇢ https://wedding.muhammadilham.xyz/?id=${guest.barcode}
+
+Please accept this message as our formal invitation.
+
+⸻
+
+❝ Even when love felt like war, I kept my weapon down for you. ❞
+— a reminder of the peace we found in each other.
+
+⸻
+
+Note:
+If the link does not open, please copy and paste it into Chrome or another browser.
+For best viewing, kindly use Chrome or Safari and disable Dark Mode.
+
+Warmest regards,
+Hanida & Ilham`
+
+  const encodedMessage = encodeURIComponent(message);
+  const url = `https://wa.me/${guest.phone}?text=${encodedMessage}`;
+  window.open(url, '_blank');
 };
 
 // Delete guest
