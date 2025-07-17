@@ -624,6 +624,19 @@
         </div>
       </div>
     </div>
+
+    <!-- Notify Alert -->
+    <NotifyAlert
+      v-model="notification.show"
+      :title="notification.title"
+      :message="notification.message"
+      :type="notification.type"
+      :show-confirm="notification.showConfirm"
+      :confirm-text="notification.confirmText"
+      :cancel-text="notification.cancelText"
+      @confirm="notification.onConfirm"
+      @cancel="notification.onCancel"
+    />
   </div>
 </template>
 
@@ -637,10 +650,39 @@ import {
   FileText, MessageCircle, ClipboardCopy, MessageSquare
 } from 'lucide-vue-next';
 import apiClient from '../api/axios';
+import NotifyAlert from '../components/NotifyAlert.vue';
 
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
+
+// Notification state
+const notification = reactive({
+  show: false,
+  title: '',
+  message: '',
+  type: 'info',
+  showConfirm: false,
+  confirmText: 'Confirm',
+  cancelText: 'OK',
+  onConfirm: () => {},
+  onCancel: () => {}
+});
+
+// Helper function to show notifications
+const showNotification = (options) => {
+  Object.assign(notification, {
+    show: true,
+    title: 'Notification',
+    message: '',
+    type: 'info',
+    showConfirm: false,
+    confirmText: 'Confirm',
+    cancelText: 'OK',
+    onConfirm: () => {},
+    onCancel: () => {}
+  }, options);
+};
 
 // Event ID from route params
 const eventId = computed(() => Number(route.params.id));
@@ -834,7 +876,6 @@ const fetchGuests = async () => {
   try {
     const response = await apiClient.get(`/events/${eventId.value}/guests`)
     const { data } = response.data;
-    console.log(data)
     guests.value = data;
   } catch (err) {
     console.error('Error fetching guests:', err);
@@ -925,7 +966,11 @@ For best viewing, kindly use Chrome or Safari and disable Dark Mode.
 Warmest regards,
 Hanida & Ilham`
   await navigator.clipboard.writeText(messageTemplate);
-  alert('berhasil menyalin template pesan');
+  showNotification({
+    title: 'Success',
+    message: 'Template message has been copied to clipboard',
+    type: 'success'
+  });
 }
 
 const sendToWhatsApp = (guest) => {
