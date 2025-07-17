@@ -1065,7 +1065,11 @@ const onFileChange = (e) => {
   if (file &&( file.type === 'text/csv' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')) {
     csvFile.value = file;
   } else {
-    alert('Please select a valid CSV file');
+    showNotification({
+      title: 'Error',
+      message: 'Please select a valid CSV file',
+      type: 'error'
+    });
   }
 };
 
@@ -1075,7 +1079,11 @@ const onFileDrop = (e) => {
   if (file &&( file.type === 'text/csv' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')) {
     csvFile.value = file;
   } else {
-    alert('Please drop a valid CSV file');
+    showNotification({
+      title: 'Error',
+      message: 'Please select a valid CSV file',
+      type: 'error'
+    });
   }
 };
 
@@ -1089,10 +1097,18 @@ const importCSV = async () => {
     const formData = new FormData();
     formData.append("guest_file", csvFile.value);
     await apiClient.post(`/events/${eventId.value}/guests/csv`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
-    alert('Successfully imported guests, this process might took a while');
+    showNotification({
+      title: 'Success',
+      message: 'Successfully imported guests, this process might took a while',
+      type: 'success'
+    });
   } catch (err) {
     console.error('Error importing CSV:', err);
-    alert('Error importing CSV file');
+    showNotification({
+      title: 'Error',
+      message: 'Error importing CSV file',
+      type: 'error'
+    });
   } finally {
     importing.value = false;
     showImportModal.value = false;
