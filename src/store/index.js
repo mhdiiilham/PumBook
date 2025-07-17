@@ -2,7 +2,7 @@ import { createStore } from 'vuex';
 import auth from './modules/auth';
 import events from './modules/events';
 import users from './modules/users';
-import checkIn from './modules/checkIn';
+import checkIn from './modules/checkin';
 
 // Create store
 const store = createStore({
