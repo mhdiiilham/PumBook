@@ -454,7 +454,8 @@
               <input 
                 type="text" 
                 id="guestName" 
-                v-model="newGuest.name" 
+                v-model="newGuest.name"
+                @input="capitalizeGuestName"
                 class="w-full px-3 py-2 border border-border rounded-md bg-background" 
                 required
               />
@@ -772,6 +773,12 @@ const toggleEditMode = () => {
     isEditing.value = true;
   }
 };
+
+function capitalizeGuestName() {
+  newGuest.name = newGuest.name
+    .toLowerCase()
+    .replace(/\b\w/g, char => char.toUpperCase())
+}
 
 // Save event changes
 const saveEvent = async () => {
