@@ -174,7 +174,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Check-in Modal -->
     <div v-if="showModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div class="bg-background rounded-lg shadow-lg w-full max-w-md p-6 animate-in fade-in zoom-in duration-300">
@@ -224,17 +224,32 @@
         </div>
       </div>
     </div>
+
+    <NotifyAlert
+      v-model="notification.show"
+      :title="notification.title"
+      :message="notification.message"
+      :type="notification.type"
+      :show-confirm="notification.showConfirm"
+      :confirm-text="notification.confirmText"
+      :cancel-text="notification.cancelText"
+      @confirm="notification.onConfirm"
+      @cancel="notification.onCancel"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, reactive, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { 
   QrCode, Plus, Loader2, CheckCircle, XCircle, X, Crown
 } from 'lucide-vue-next';
 import BarcodeScanner from '../components/BarcodeScanner.vue';
+import NotifyAlert from '../components/NotifyAlert.vue';
+import apiClient from '../api/axios';
+import router from '../router';
 
 const store = useStore();
 const route = useRoute();
@@ -244,6 +259,31 @@ const manualCode = ref('');
 const searchQuery = ref('');
 const isScanning = ref(false);
 const barcodeValue = ref('hello');
+
+watch(selectedEventId, (newId) => {
+  if (newId) {
+    router.push({
+      query: {
+        ...route.query,
+        eventId: newId
+      }
+    })
+  }
+})
+
+
+// Notification state
+const notification = reactive({
+  show: false,
+  title: '',
+  message: '',
+  type: 'info',
+  showConfirm: false,
+  confirmText: 'Confirm',
+  cancelText: 'OK',
+  onConfirm: () => {},
+  onCancel: () => {}
+});
 
 // Modal state
 const showModal = ref(false);
@@ -277,8 +317,6 @@ const checkedInCount = computed(() => guests.value.filter(guest => guest.checked
 const totalGuests = computed(() => guests.value.length);
 
 onMounted(() => {
-  
-  // Check for eventId in query params
   const eventId = route.query.eventId;
   if (eventId) selectedEventId.value = Number(eventId);
 });
@@ -302,6 +340,20 @@ const handleScannerError = (error) => {
   });
 };
 
+const showNotification = (options) => {
+  Object.assign(notification, {
+    show: true,
+    title: 'Notification',
+    message: '',
+    type: 'info',
+    showConfirm: false,
+    confirmText: 'Confirm',
+    cancelText: 'OK',
+    onConfirm: () => {},
+    onCancel: () => {}
+  }, options);
+};
+
 const checkInManual = () => {
   if (!manualCode.value) return;
   
@@ -316,10 +368,21 @@ const checkInManual = () => {
     showCheckInModal(guest);
     manualCode.value = '';
   } else {
-    store.dispatch('checkIn/addRecentScan', {
-      success: false,
-      message: `Guest not found: ${manualCode.value}`,
-      timestamp: new Date(),
+    showNotification({
+      title: 'Warning',
+      message: `Guest ${manualCode.value} is not on the RSVP list.`,
+      type: 'warning',
+      showConfirm: true,
+      confirmText: 'Add',
+      onConfirm: async () => {
+        try {
+          await apiClient.post(`/public/guests/${selectedEventId.value}`, { name: manualCode.value, isAttending: true });
+          store.dispatch('checkIn/fetchGuests', selectedEventId.value);
+        } catch (error) {
+          console.log('failed to add new guest on check-in manual');
+          console.error(error);
+        }
+      },
     });
   }
 };
@@ -339,7 +402,6 @@ const handleScan = (scannedCode) => {
         timestamp: new Date(),
       });
     } else {
-      // Show check-in modal
       showCheckInModal(guest);
     }
   } else {
@@ -375,6 +437,7 @@ const confirmCheckIn = () => {
       message: `Checked in: ${selectedGuest.value.name}`,
       timestamp: new Date(),
     });
+    store.dispatch('checkIn/fetchGuests', selectedEventId.value);
     closeModal();
   }
 };

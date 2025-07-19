@@ -1034,8 +1034,6 @@ const addGuest = async () => {
   addingGuest.value = true;
   
   try {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
     const newGuestObj = {
       name: newGuest.name,
       email: newGuest.email,
@@ -1043,7 +1041,7 @@ const addGuest = async () => {
       vip: newGuest.vip,
     };
 
-    const response = await apiClient.post(`/events/${eventId.value}/guests`, { guests: [newGuestObj] });
+    await apiClient.post(`/events/${eventId.value}/guests`, { guests: [newGuestObj] });
     await fetchGuests();
 
     newGuest.name = '';
